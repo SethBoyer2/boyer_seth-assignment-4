@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { Loan } from "../models/models"
 import { HTTP_STATUS } from "src/constants/httpConstants"
 import { successResponse } from "../models/responseModel"
-
+import { createLoanService } from "../services/loanService"
 export const createLoan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // Create new Event object
   try {

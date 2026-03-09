@@ -1,7 +1,17 @@
 import { Loan } from "../models/models";
+import {
+    createDocument,
+    getDocuments,
+    getDocumentById,
+    updateDocument,
+    deleteDocument,
+} from "../repositories/firestoreRepository";
+
+const COLLECTION = "loans";
+
+export const loans: Loan[] = [];
 
 export const createLoanService = async (loanData: {
-    id: String,
     applicant: String,
     amount: Number,
     status: String
