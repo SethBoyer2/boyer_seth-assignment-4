@@ -3,6 +3,19 @@ import { Loan } from "../models/models"
 import { HTTP_STATUS } from "src/constants/httpConstants"
 import { successResponse } from "../models/responseModel"
 import { createLoanService } from "../services/loanService"
+
+export const getAllLoans = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const loans: Loan[] = await getAllLoansService()
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(loans, "Items retrieved successfully")
+        )
+    } catch (error) {
+        next(error)
+    }
+}
+
+
 export const createLoan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // Create new Event object
   try {
