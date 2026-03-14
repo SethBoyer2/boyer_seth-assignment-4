@@ -15,7 +15,7 @@ export const getAllLoans = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-
+// need authorization
 export const createLoan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // Create new Event object
   try {
@@ -42,7 +42,7 @@ export const getLoanById = async (req: Request, res: Response, next: NextFunctio
         next(error)
     }
 }
-
+// need authorization
 export const deleteLoan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const id = req.params.id as string
@@ -54,14 +54,14 @@ export const deleteLoan = async (req: Request, res: Response, next: NextFunction
         next(error)
     }
 }
-
+// need authorization
 export const updateLoan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const id = req.params.id as string
-        const { name, date, capacity, status, category } = req.body
+        const { applicant, amount, status } = req.body
 
         // Create update data object with only the fields that can be updated
-        const updateData = { name, date, capacity, status, category }
+        const updateData = { applicant, amount, status }
 
         const updatedLoan: Loan = await updateLoanService(id, updateData)
         res.status(HTTP_STATUS.OK).json(

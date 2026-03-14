@@ -4,35 +4,36 @@ import {
     createLoan,
     getLoanById,
     deleteLoan,
+    updateLoan,
 } from "../controllers/loanController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
 
-const router: express.Router = express.Router();
+const loanRouter: express.Router = express.Router();
 
-router.post(
+loanRouter.post(
     "/loans",
     authenticate,
     isAuthorized({ hasRole: ["admin", "manager"] }),
     createLoan
 );
 
-router.get("/loans", authenticate, getAllLoans);
+loanRouter.get("/loans", authenticate, getAllLoans);
 
-router.get("/posts/:id", authenticate, getLoanById);
+loanRouter.get("/posts/:id", authenticate, getLoanById);
 
-// router.put(
-//     "/posts/:id",
-//     authenticate,
-//     isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
-//     updatePostHandler
-// );
+loanRouter.put(
+    "/posts/:id",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
+    updateLoan
+);
 
-router.delete(
+loanRouter.delete(
     "/loans/:id",
     authenticate,
     isAuthorized({ hasRole: ["admin", "manager"] }),
     deleteLoan
 );
 
-export default router;
+export default loanRouter;
