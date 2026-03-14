@@ -91,3 +91,23 @@ export const deleteLoanService = async (id: string): Promise<void> => {
         throw error;
     }
 };
+
+export const updateLoanService = async (
+    id: string,
+    loanData: Partial<Pick<Loan, "applicant" | "amount" | "status">>
+): Promise<Loan> => {
+    try {
+        const updateData = {
+            ...loanData,
+            updatedAt: new Date(),
+        };
+
+        await updateDocument<Loan>(COLLECTION, id, updateData);
+
+        // Return the updated item
+        const updatedLoan = await getLoanByIdService(id);
+        return updatedLoan;
+    } catch (error) {
+        throw error;
+    }
+};
