@@ -7,6 +7,7 @@ import {
 import errorHandler from "./api/v1/middleware/errorHandler";
 import loanRouter from "./api/v1/routes/loanRoutes";
 import userRouter from "./api/v1/routes/userRoutes";
+import adminRouter from "./api/v1/routes/adminRoutes";
 
 const app = express();
 
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.json());
 
 // API Routes
+app.use("/api/v1/admin", adminRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1", loanRouter);
 
