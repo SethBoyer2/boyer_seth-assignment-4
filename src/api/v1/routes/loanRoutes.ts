@@ -3,6 +3,7 @@ import {
     getAllLoans,
     createLoan,
     getLoanById,
+    deleteLoan,
 } from "../controllers/loanController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
@@ -27,11 +28,11 @@ router.get("/posts/:id", authenticate, getLoanById);
 //     updatePostHandler
 // );
 
-// router.delete(
-//     "/posts/:id",
-//     authenticate,
-//     isAuthorized({ hasRole: ["admin", "manager"] }),
-//     deletePostHandler
-// );
+router.delete(
+    "/loans/:id",
+    authenticate,
+    isAuthorized({ hasRole: ["admin", "manager"] }),
+    deleteLoan
+);
 
 export default router;

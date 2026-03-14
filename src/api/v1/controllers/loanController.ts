@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { Loan } from "../models/models"
 import { HTTP_STATUS } from "src/constants/httpConstants"
 import { successResponse } from "../models/responseModel"
-import { createLoanService, getAllLoansService, getLoanByIdService } from "../services/loanService"
+import { createLoanService, deleteLoanService, getAllLoansService, getLoanByIdService } from "../services/loanService"
 
 export const getAllLoans = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -37,6 +37,18 @@ export const getLoanById = async (req: Request, res: Response, next: NextFunctio
         const loan: Loan = await getLoanByIdService(id)
         res.status(HTTP_STATUS.OK).json(
             successResponse(loan, "Item retrieved successfully")
+        )
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteLoan = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const id = req.params.id as string
+        await deleteLoanService(id)
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(null, "Item deleted successfully")
         )
     } catch (error) {
         next(error)

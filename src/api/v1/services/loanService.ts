@@ -77,3 +77,17 @@ export const getLoanByIdService = async (id: string): Promise<Loan> => {
         throw error;
     }
 };
+
+export const deleteLoanService = async (id: string): Promise<void> => {
+    try {
+        // Check if item exists before deleting
+        const doc = await getDocumentById(COLLECTION, id);
+        if (!doc) {
+            throw new Error(`Item with ID ${id} not found`);
+        }
+
+        await deleteDocument(COLLECTION, id);
+    } catch (error) {
+        throw error;
+    }
+};
