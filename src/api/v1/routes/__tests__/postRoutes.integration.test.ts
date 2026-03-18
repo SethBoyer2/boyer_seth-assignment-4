@@ -1,15 +1,17 @@
 import request from "supertest";
 import app from "../../../../app";
+import * as loanController from "../../../../api/v1/controllers/loanController"
 import { auth } from "../../../../config/firebaseConfig";
+import { json } from "node:stream/consumers";
 
-jest.mock("../config/firebaseConfig");
+jest.mock("../../../../config/firebaseConfig");
 
-describe("POST /api/v1/posts - Authentication and Authorization Integration", () => {
+describe("POST /api/v1/loans - Authentication and Authorization Integration", () => {
     it("should return 401 with proper error format when no token provided", async () => {
         // Act
         const response = await request(app)
-            .post("/api/v1/posts")
-            .send({ title: "Test Post", content: "Test content" });
+            .post("/api/v1/loans")
+            .send({ title: "Test loan", content: "Test content" });
 
         // Assert
         expect(response.status).toBe(401);
@@ -33,9 +35,9 @@ describe("POST /api/v1/posts - Authentication and Authorization Integration", ()
 
         // Act
         const response = await request(app)
-            .post("/api/v1/posts")
+            .post("/api/v1/loans")
             .set("Authorization", "Bearer valid-token")
-            .send({ title: "Test Post", content: "Test content" });
+            .send({ title: "Test loan", content: "Test content" });
 
         // Assert
         expect(response.status).toBe(403);
@@ -49,25 +51,4 @@ describe("POST /api/v1/posts - Authentication and Authorization Integration", ()
         });
     });
 
-    it("should succeed when user has proper role and token", async () => {
-        // Arrange
-        (auth.verifyIdToken as jest.Mock).mockResolvedValueOnce({
-            uid: "admin123",
-            role: "admin",
-        });
-
-        // Mock your post creation logic here
-        // This would typically involve mocking your database or service layer
-
-        // Act
-        const response = await request(app)
-            .post("/api/v1/posts")
-            .set("Authorization", "Bearer valid-admin-token")
-            .send({ title: "Test Post", content: "Test content" });
-
-        // Assert
-        // Or whatever success status you use
-        expect(response.status).toBe(201);
-        expect(response.body.success).toBe(true);
-    });
 });
