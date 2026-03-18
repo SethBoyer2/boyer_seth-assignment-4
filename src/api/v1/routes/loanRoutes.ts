@@ -18,12 +18,12 @@ loanRouter.post(
     createLoan
 );
 
-loanRouter.get("/loans", authenticate, getAllLoans);
+loanRouter.get("/loans", authenticate, isAuthorized({ hasRole: ["admin", "manager", "user"] }), getAllLoans);
 
-loanRouter.get("/posts/:id", authenticate, getLoanById);
+loanRouter.get("/loans/:id", authenticate, isAuthorized({ hasRole: ["admin", "manager", "user"] }), getLoanById);
 
 loanRouter.put(
-    "/posts/:id",
+    "/loans/:id",
     authenticate,
     isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
     updateLoan

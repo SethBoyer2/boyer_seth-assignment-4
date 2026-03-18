@@ -29,6 +29,14 @@ app.use("/api/v1/admin", adminRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1", loanRouter);
 
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Global error handling middleware (MUST be applied last)
 app.use(errorHandler);
 
